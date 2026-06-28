@@ -1,0 +1,706 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Letters for Change – Social Media Content Generator</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700;900&family=Inter:wght@400;500;600;700&display=swap');
+
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  :root {
+    --bg:           #F5F5F5;
+    --surface:      #FFFFFF;
+    --surface2:     #F0FAF9;
+    --border:       #E0E0E0;
+    --ink:          #1C1C1C;
+    --muted:        #6B6B6B;
+    --accent:       #F47B20;
+    --accent-dark:  #D4620A;
+    --teal:         #00A99D;
+    --teal-light:   #E6F7F6;
+    --teal-border:  #B2E4E1;
+    --radius:       12px;
+  }
+
+  body {
+    font-family: 'Inter', sans-serif;
+    background: var(--bg);
+    color: var(--ink);
+    min-height: 100vh;
+    padding: 0 0 80px;
+  }
+
+  /* ── HEADER ── */
+  .site-header {
+    background: #FFFFFF;
+    border-bottom: 3px solid var(--teal);
+    padding: 18px 24px 14px;
+    text-align: center;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.06);
+  }
+  .logo-mark {
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    margin-bottom: 4px;
+  }
+  .logo-icon {
+    width: 40px; height: 40px;
+    background: var(--accent);
+    border-radius: 10px;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 21px;
+  }
+  .org-name {
+    font-family: 'Playfair Display', serif;
+    font-size: 23px; font-weight: 900;
+    color: var(--ink); letter-spacing: -0.01em;
+  }
+  .tagline {
+    font-size: 11px; color: var(--muted);
+    letter-spacing: 0.14em; text-transform: uppercase;
+  }
+
+  /* ── SOCIAL PROOF COUNTER STRIP ── */
+  .proof-strip {
+    background: linear-gradient(135deg, #00A99D 0%, #007f76 100%);
+    padding: 14px 24px;
+    display: flex;
+    justify-content: center;
+    gap: 0;
+    flex-wrap: wrap;
+  }
+  .proof-stat {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 0 28px;
+    border-right: 1px solid rgba(255,255,255,0.25);
+  }
+  .proof-stat:last-child { border-right: none; }
+  .proof-num {
+    font-family: 'Playfair Display', serif;
+    font-size: 26px; font-weight: 900;
+    color: #fff; line-height: 1;
+  }
+  .proof-num span { color: #FFD580; }
+  .proof-desc {
+    font-size: 11px; color: rgba(255,255,255,0.85);
+    letter-spacing: 0.06em; text-transform: uppercase;
+    margin-top: 3px; text-align: center;
+  }
+
+  /* ── INTRO BANNER ── */
+  .page-intro {
+    background: var(--accent);
+    color: #fff;
+    text-align: center;
+    padding: 20px 24px;
+  }
+  .page-intro h2 {
+    font-family: 'Playfair Display', serif;
+    font-size: 22px; font-weight: 900; margin-bottom: 5px;
+    letter-spacing: -0.01em;
+  }
+  .page-intro p { font-size: 13px; opacity: 0.92; }
+
+  /* ── MAIN ── */
+  .main { max-width: 780px; margin: 0 auto; padding: 28px 16px 0; }
+
+  .section-label {
+    font-size: 11px; font-weight: 700;
+    letter-spacing: 0.14em; text-transform: uppercase;
+    color: var(--muted); margin-bottom: 12px;
+  }
+
+  /* ── QUICK PICKS ── */
+  .quick-grid { display: flex; flex-wrap: wrap; gap: 10px; margin-bottom: 28px; }
+  .quick-btn {
+    background: var(--surface);
+    border: 1.5px solid var(--border);
+    border-radius: 30px;
+    color: var(--ink);
+    cursor: pointer;
+    font-family: 'Inter', sans-serif;
+    font-size: 13px; font-weight: 500;
+    padding: 9px 16px;
+    transition: all 0.18s;
+  }
+  .quick-btn:hover { border-color: var(--accent); color: var(--accent); background: #FFF4EC; }
+
+  /* ── CARD ── */
+  .card {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    padding: 24px; margin-bottom: 20px;
+    box-shadow: 0 1px 4px rgba(0,0,0,0.05);
+  }
+  .card-title {
+    font-family: 'Playfair Display', serif;
+    font-size: 16px; font-weight: 700;
+    margin-bottom: 16px; color: var(--ink);
+  }
+
+  .field { display: flex; flex-direction: column; gap: 8px; margin-bottom: 18px; }
+  .field:last-child { margin-bottom: 0; }
+  label { font-size: 12px; font-weight: 600; color: var(--muted); }
+
+  input, textarea {
+    background: var(--surface2);
+    border: 1.5px solid var(--teal-border);
+    border-radius: 8px;
+    color: var(--ink);
+    font-family: 'Inter', sans-serif;
+    font-size: 14px;
+    padding: 10px 13px;
+    outline: none;
+    transition: border-color 0.18s;
+    width: 100%;
+  }
+  input:focus, textarea:focus { border-color: var(--teal); }
+  textarea { resize: vertical; min-height: 85px; }
+  .limit-hint { font-size: 11px; color: var(--muted); margin-top: 2px; }
+
+  /* ── MISSING DETAILS WARNING ── */
+  .missing-warn {
+    background: #FFFBEA; border: 1.5px solid #F5D87A;
+    border-radius: 10px; padding: 12px 16px;
+    margin-bottom: 16px; display: none;
+    font-size: 13px; color: #7A5C00;
+    line-height: 1.6;
+  }
+  .missing-warn strong { display: block; margin-bottom: 4px; color: #5C4200; }
+
+  /* ── CHIPS ── */
+  .chip-row { display: flex; flex-wrap: wrap; gap: 10px; }
+  .chip {
+    background: #F5F5F5;
+    border: 1.5px solid var(--border);
+    border-radius: 30px;
+    color: var(--muted);
+    cursor: pointer;
+    font-family: 'Inter', sans-serif;
+    font-size: 13px; font-weight: 500;
+    padding: 8px 16px;
+    transition: all 0.18s;
+    user-select: none;
+  }
+  .chip.active { background: var(--teal-light); border-color: var(--teal); color: var(--teal); font-weight: 600; }
+  .chip[data-platform="Facebook"].active  { background:#EEF2FF; border-color:#3B5998; color:#3B5998; }
+  .chip[data-platform="Instagram"].active { background:#FFF0F8; border-color:#E1306C; color:#E1306C; }
+  .chip[data-platform="LinkedIn"].active  { background:#EFF6FF; border-color:#0077B5; color:#0077B5; }
+  .chip[data-platform="Twitter/X"].active { background:#F0FAFA; border-color:#1DA1F2; color:#1DA1F2; }
+
+  /* ── PLATFORM HEADER INLINE ── */
+  .section-header-inline {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 20px;
+    flex-wrap: wrap;
+    gap: 10px;
+  }
+  .section-header-inline .section-label { margin-bottom: 0; }
+  .chip-row-inline { display: flex; flex-wrap: wrap; gap: 10px; }
+
+  /* ── PROGRESS INDICATOR ── */
+  .progress-strip {
+    display: flex;
+    align-items: center;
+    margin-bottom: 28px;
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    overflow: hidden;
+    box-shadow: 0 1px 4px rgba(0,0,0,0.04);
+  }
+  .progress-step {
+    flex: 1;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 14px 18px;
+    border-right: 1px solid var(--border);
+    transition: background 0.2s;
+    cursor: default;
+  }
+  .progress-step:last-child { border-right: none; }
+  .progress-step.active   { background: var(--teal-light); }
+  .progress-step.done     { background: #F0FFF9; }
+  .progress-step.inactive { background: var(--surface); }
+  .step-num {
+    width: 26px; height: 26px;
+    border-radius: 50%;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 12px; font-weight: 700;
+    flex-shrink: 0;
+    transition: all 0.2s;
+  }
+  .progress-step.active   .step-num { background: var(--teal); color: #fff; }
+  .progress-step.done     .step-num { background: #00A67E; color: #fff; }
+  .progress-step.inactive .step-num { background: var(--border); color: var(--muted); }
+  .step-info { display: flex; flex-direction: column; gap: 1px; }
+  .step-label-small { font-size: 11px; font-weight: 700; color: var(--muted); text-transform: uppercase; letter-spacing: 0.1em; }
+  .progress-step.active   .step-label-small { color: var(--teal); }
+  .progress-step.done     .step-label-small { color: #00A67E; }
+  .step-name { font-size: 13px; font-weight: 600; color: var(--ink); }
+  .progress-step.inactive .step-name { color: var(--muted); }
+
+  /* ── GENERATE BTN ── */
+  .generate-btn {
+    width: 100%;
+    background: var(--accent);
+    border: none; border-radius: var(--radius);
+    color: #fff; cursor: pointer;
+    font-family: 'Playfair Display', serif;
+    font-size: 17px; font-weight: 700;
+    padding: 16px;
+    transition: background 0.18s, transform 0.12s;
+    margin-bottom: 28px;
+  }
+  .generate-btn:hover { background: var(--accent-dark); transform: translateY(-1px); }
+  .generate-btn:disabled { opacity: 0.5; cursor: not-allowed; transform: none; }
+
+  /* ── LOADING ── */
+  .loading { text-align: center; padding: 50px 20px; color: var(--muted); }
+  .spinner {
+    width: 34px; height: 34px;
+    border: 3px solid var(--border);
+    border-top-color: var(--teal);
+    border-radius: 50%;
+    animation: spin 0.8s linear infinite;
+    margin: 0 auto 14px;
+  }
+  .loading-steps { font-size: 13px; margin-top: 8px; }
+  @keyframes spin { to { transform: rotate(360deg); } }
+
+  /* ── ERROR ── */
+  .error-msg {
+    background: #FFF4EC; border: 1px solid #FDDCBC;
+    border-radius: 10px; color: var(--accent-dark);
+    font-size: 13px; padding: 13px 16px; margin-bottom: 18px;
+  }
+
+  /* ── ANIMATED ENVELOPE CELEBRATION ── */
+  .envelope-celebration {
+    display: none;
+    text-align: center;
+    padding: 28px 20px 10px;
+    animation: fadeIn 0.4s ease;
+  }
+  .envelope-celebration.show { display: block; }
+  @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+
+  .env-svg { display: inline-block; }
+  .env-flap  { transform-origin: top center; animation: openFlap 0.6s 0.2s ease forwards; }
+  .env-star  { animation: popStar 0.5s ease forwards; opacity: 0; }
+  .env-star1 { animation-delay: 0.5s; }
+  .env-star2 { animation-delay: 0.65s; }
+  .env-star3 { animation-delay: 0.8s; }
+  .env-face  { animation: smilePop 0.4s 0.7s ease forwards; opacity: 0; transform: scale(0.5); }
+  @keyframes openFlap {
+    0%   { transform: rotateX(0deg); }
+    100% { transform: rotateX(-160deg); }
+  }
+  @keyframes popStar {
+    0%   { opacity: 0; transform: scale(0) translateY(0); }
+    60%  { opacity: 1; transform: scale(1.3) translateY(-8px); }
+    100% { opacity: 1; transform: scale(1) translateY(-12px); }
+  }
+  @keyframes smilePop {
+    0%   { opacity: 0; transform: scale(0.4); }
+    80%  { transform: scale(1.15); }
+    100% { opacity: 1; transform: scale(1); }
+  }
+
+  .celebration-msg {
+    font-family: 'Playfair Display', serif;
+    font-size: 17px; font-weight: 700;
+    color: var(--teal); margin-top: 10px;
+  }
+  .celebration-sub { font-size: 12px; color: var(--muted); margin-top: 3px; }
+
+  /* ── RESULTS HEADER ── */
+  .results-header {
+    display: flex; align-items: center; justify-content: space-between;
+    margin-bottom: 16px; flex-wrap: wrap; gap: 8px;
+  }
+  .time-saved {
+    background: var(--teal-light); border: 1px solid var(--teal-border);
+    border-radius: 20px; color: var(--teal);
+    font-size: 12px; font-weight: 600; padding: 5px 12px;
+  }
+
+  /* ── RESULT CARD ── */
+  .result-card {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    margin-bottom: 24px;
+    box-shadow: 0 1px 4px rgba(0,0,0,0.06);
+    overflow: hidden;
+  }
+  .result-header {
+    display: flex; align-items: center; justify-content: space-between;
+    padding: 13px 18px;
+    border-bottom: 1px solid var(--border);
+    background: var(--teal-light);
+  }
+  .result-header.fb { background: #EEF2FF; }
+  .result-header.ig { background: #FFF0F8; }
+  .result-header.li { background: #EFF6FF; }
+  .result-header.tw { background: #F0FAFA; }
+
+  .platform-label {
+    display: flex; align-items: center; gap: 8px;
+    font-family: 'Playfair Display', serif;
+    font-size: 15px; font-weight: 700; color: var(--ink);
+  }
+  .char-badge {
+    font-size: 11px; font-weight: 600;
+    background: rgba(0,0,0,0.07);
+    border-radius: 20px; padding: 2px 9px; color: var(--muted);
+  }
+
+  .result-body { padding: 20px; display: flex; flex-direction: column; gap: 18px; }
+
+  .content-block { display: flex; flex-direction: column; gap: 8px; }
+  .content-label {
+    font-size: 10px; font-weight: 700;
+    letter-spacing: 0.14em; text-transform: uppercase;
+    color: var(--teal);
+  }
+  .content-text {
+    background: var(--surface2); border: 1px solid var(--teal-border);
+    border-radius: 8px; font-size: 14px; line-height: 1.7;
+    padding: 12px 14px; white-space: pre-wrap; word-break: break-word;
+  }
+
+  /* ── HEADLINES LIST ── */
+  .headlines-list { display: flex; flex-direction: column; gap: 8px; }
+  .headline-option {
+    background: var(--surface2); border: 1.5px solid var(--teal-border);
+    border-radius: 8px; padding: 10px 14px;
+    font-size: 14px; line-height: 1.5; cursor: pointer;
+    display: flex; align-items: flex-start; gap: 10px;
+    transition: border-color 0.15s, background 0.15s;
+  }
+  .headline-option:hover { border-color: var(--teal); background: #d9f2f0; }
+  .headline-option.selected { border-color: var(--accent); background: #FFF4EC; }
+  .hl-num {
+    background: var(--teal); color: #fff;
+    border-radius: 50%; width: 20px; height: 20px; min-width: 20px;
+    font-size: 10px; font-weight: 700;
+    display: flex; align-items: center; justify-content: center;
+    margin-top: 1px;
+  }
+  .headline-option.selected .hl-num { background: var(--accent); }
+  .hl-text { flex: 1; }
+
+  /* ── ENGAGEMENT IDEAS ── */
+  .engagement-box {
+    background: #FFFBEA; border: 1.5px solid #F5D87A;
+    border-radius: 8px; padding: 13px 16px;
+  }
+  .engagement-idea {
+    font-size: 13px; color: #5C4200; line-height: 1.6;
+    display: flex; gap: 8px; align-items: flex-start;
+    padding: 4px 0;
+  }
+  .engagement-idea + .engagement-idea { border-top: 1px solid rgba(245,216,122,0.5); margin-top: 6px; padding-top: 10px; }
+
+  .tags-wrap {
+    display: flex; flex-wrap: wrap; gap: 7px;
+    padding: 12px 14px;
+    background: var(--surface2); border: 1px solid var(--teal-border);
+    border-radius: 8px;
+  }
+  .keyword-tag {
+    background: var(--teal-light); border: 1px solid var(--teal-border);
+    border-radius: 20px; color: var(--teal);
+    font-size: 11px; font-weight: 600; padding: 3px 10px;
+  }
+  .hashtag-tag {
+    background: #FFF4EC; border: 1px solid #FDDCBC;
+    border-radius: 20px; color: var(--accent);
+    font-size: 11px; font-weight: 600; padding: 3px 10px;
+  }
+
+  .card-actions { display: flex; gap: 8px; flex-wrap: wrap; }
+  .copy-btn {
+    background: transparent; border: 1.5px solid var(--border);
+    border-radius: 7px; color: var(--muted);
+    cursor: pointer; font-family: 'Inter', sans-serif;
+    font-size: 12px; font-weight: 500; padding: 6px 13px;
+    transition: all 0.18s;
+  }
+  .copy-btn:hover  { border-color: var(--teal); color: var(--teal); }
+  .copy-btn.copied { color: var(--teal); border-color: var(--teal); }
+  .copy-btn.primary { background: var(--accent); border-color: var(--accent); color: #fff; }
+  .copy-btn.primary:hover  { background: var(--accent-dark); }
+  .copy-btn.primary.copied { background: var(--teal); border-color: var(--teal); color: #fff; }
+
+  /* ── REGENERATE ── */
+  .regen-btn {
+    display: flex; align-items: center; gap: 8px;
+    background: var(--surface);
+    border: 1.5px solid var(--teal);
+    border-radius: var(--radius);
+    color: var(--teal);
+    cursor: pointer;
+    font-family: 'Inter', sans-serif;
+    font-size: 14px; font-weight: 600;
+    padding: 12px 22px;
+    transition: all 0.18s;
+  }
+  .regen-btn:hover { background: var(--teal-light); transform: translateY(-1px); }
+  .regen-btn:disabled { opacity: 0.45; cursor: not-allowed; transform: none; }
+  .regen-wrap {
+    display: flex; align-items: center; justify-content: space-between;
+    flex-wrap: wrap; gap: 12px; margin-bottom: 28px;
+  }
+  .regen-note { font-size: 12px; color: var(--muted); }
+
+  .divider { border: none; border-top: 1px solid var(--border); margin: 4px 0 22px; }
+</style>
+</head>
+<body>
+
+<header class="site-header">
+  <div class="logo-mark">
+    <div class="logo-icon">✉️</div>
+    <span class="org-name">Letters for Change</span>
+  </div>
+  <div class="tagline">You voice it, we amplify it</div>
+</header>
+
+<!-- SOCIAL PROOF COUNTER -->
+<div class="proof-strip">
+  <div class="proof-stat">
+    <div class="proof-num">639<span>+</span></div>
+    <div class="proof-desc">Letters from children</div>
+  </div>
+  <div class="proof-stat">
+    <div class="proof-num">4<span>+</span></div>
+    <div class="proof-desc">NGO partners</div>
+  </div>
+  <div class="proof-stat">
+    <div class="proof-num">2019</div>
+    <div class="proof-desc">Founded by a 12-year-old</div>
+  </div>
+  <div class="proof-stat">
+    <div class="proof-num">100<span>%</span></div>
+    <div class="proof-desc">Student-run</div>
+  </div>
+</div>
+
+<div class="page-intro">
+  <h2>Turn Children's Voices Into Viral Change ✉️</h2>
+  <p>Generate headlines, captions, hashtags & engagement ideas — platform-ready, in seconds.</p>
+</div>
+
+<div class="main">
+
+  <!-- PROGRESS INDICATOR -->
+  <div class="progress-strip" id="progressStrip">
+    <div class="progress-step active" id="step1">
+      <div class="step-num">1</div>
+      <div class="step-info">
+        <div class="step-label-small">Step 1 of 3</div>
+        <div class="step-name">Choose topic</div>
+      </div>
+    </div>
+    <div class="progress-step inactive" id="step2">
+      <div class="step-num">2</div>
+      <div class="step-info">
+        <div class="step-label-small">Step 2 of 3</div>
+        <div class="step-name">Post details</div>
+      </div>
+    </div>
+    <div class="progress-step inactive" id="step3">
+      <div class="step-num">3</div>
+      <div class="step-info">
+        <div class="step-label-small">Step 3 of 3</div>
+        <div class="step-name">Platforms & tone</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- QUICK PICKS -->
+  <div class="section-label">Step 1 — Pick a topic or type your own below</div>
+  <div class="quick-grid">
+    <button class="quick-btn" onclick="fillTopic('Children\'s letters & stories')">✉️ Children's letters & stories</button>
+    <button class="quick-btn" onclick="fillTopic('Amplifying children\'s voices')">📣 Amplifying children's voices</button>
+    <button class="quick-btn" onclick="fillTopic('Letter-writing event or workshop')">📝 Letter-writing event</button>
+    <button class="quick-btn" onclick="fillTopic('Impact story or milestone reached')">🏆 Impact story / milestone</button>
+    <button class="quick-btn" onclick="fillTopic('Call for interns or volunteers')">🙋 Call for volunteers / interns</button>
+    <button class="quick-btn" onclick="fillTopic('Partnership with a school or NGO')">🤝 New partnership</button>
+    <button class="quick-btn" onclick="fillTopic('Children\'s rights awareness campaign')">⚖️ Children's rights</button>
+    <button class="quick-btn" onclick="fillTopic('Donation or fundraising appeal')">❤️ Fundraising appeal</button>
+    <button class="quick-btn" onclick="fillTopic('Behind the scenes of LFC student team')">🎬 Behind the scenes</button>
+    <button class="quick-btn" onclick="fillTopic('Child advocate spotlight or success story')">⭐ Advocate spotlight</button>
+  </div>
+
+  <!-- POST DETAILS -->
+  <div class="card">
+    <div class="card-title">Step 2 — Describe your post</div>
+    <div class="field">
+      <label>Topic / Post Idea *</label>
+      <input type="text" id="topic" placeholder="e.g. We received our 700th letter from a child this week!" />
+    </div>
+    <div class="field">
+      <label>Post content or key details <span style="font-weight:400;color:var(--muted)">(optional but recommended)</span></label>
+      <textarea id="context" placeholder="Paste your raw post content, key facts, or any message you want included.&#10;&#10;e.g. A 10-year-old from Mumbai wrote to the Chief Minister about plastic pollution in her school's playground…"></textarea>
+      <div class="limit-hint">💡 Include dates, deadlines, names, or numbers for the most accurate output.</div>
+    </div>
+  </div>
+
+  <!-- MISSING DETAILS WARNING -->
+  <div class="missing-warn" id="missingWarn">
+    <strong>⚠️ Heads up — a few details might be missing</strong>
+    <span id="missingList"></span>
+  </div>
+
+  <!-- PLATFORMS + TONE -->
+  <div class="card">
+    <div class="card-title">Step 3 — Select platforms & tone</div>
+
+    <div class="section-header-inline">
+      <div class="section-label">Platforms — select one or more</div>
+      <div class="chip-row-inline" id="platformGrid">
+        <button class="chip" data-platform="Facebook">📘 Facebook</button>
+        <button class="chip" data-platform="Instagram">📸 Instagram</button>
+        <button class="chip" data-platform="LinkedIn">💼 LinkedIn</button>
+        <button class="chip" data-platform="Twitter/X">🐦 Twitter / X</button>
+      </div>
+    </div>
+
+    <div class="section-label" style="margin-bottom:10px">Tone of voice</div>
+    <div class="chip-row" id="toneGrid">
+      <button class="chip" data-tone="Inspiring & warm">✨ Inspiring & warm</button>
+      <button class="chip" data-tone="Informative & factual">📚 Informative</button>
+      <button class="chip" data-tone="Urgent & action-driven">🔥 Urgent & action-driven</button>
+      <button class="chip" data-tone="Celebratory">🎉 Celebratory</button>
+      <button class="chip" data-tone="Storytelling & emotional">📖 Storytelling</button>
+    </div>
+  </div>
+
+  <button class="generate-btn" id="generateBtn" onclick="generate()">✦ Generate Content for LFC</button>
+
+  <div id="errorBox" class="error-msg" style="display:none"></div>
+
+  <!-- ANIMATED ENVELOPE CELEBRATION -->
+  <div class="envelope-celebration" id="envelopeCelebration">
+    <svg class="env-svg" width="100" height="80" viewBox="0 0 100 80" fill="none" xmlns="http://www.w3.org/2000/svg">
+      <!-- Stars -->
+      <text class="env-star env-star1" x="10" y="22" font-size="14" fill="#F47B20">★</text>
+      <text class="env-star env-star2" x="78" y="18" font-size="11" fill="#00A99D">✦</text>
+      <text class="env-star env-star3" x="88" y="38" font-size="10" fill="#F47B20">★</text>
+      <!-- Envelope body -->
+      <rect x="10" y="30" width="80" height="46" rx="5" fill="#00A99D"/>
+      <!-- Envelope bottom triangle folds -->
+      <path d="M10 76 L50 52 L90 76Z" fill="#007f76"/>
+      <!-- Left & right fold -->
+      <path d="M10 30 L50 52 L10 76Z" fill="#008f85"/>
+      <path d="M90 30 L50 52 L90 76Z" fill="#008f85"/>
+      <!-- Flap -->
+      <g class="env-flap">
+        <path d="M10 30 Q50 10 90 30 L50 55Z" fill="#F47B20"/>
+      </g>
+      <!-- Smiley face on envelope -->
+      <g class="env-face">
+        <circle cx="50" cy="58" r="10" fill="#FFD580"/>
+        <circle cx="47" cy="56" r="1.5" fill="#5C4200"/>
+        <circle cx="53" cy="56" r="1.5" fill="#5C4200"/>
+        <path d="M46 61 Q50 65 54 61" stroke="#5C4200" stroke-width="1.5" stroke-linecap="round" fill="none"/>
+      </g>
+    </svg>
+    <div class="celebration-msg">Your content is ready! 🎉</div>
+    <div class="celebration-sub">Scroll down to see platform-specific posts</div>
+  </div>
+
+  <!-- REGENERATE + RESULTS -->
+  <div id="regenWrap" class="regen-wrap" style="display:none">
+    <div>
+      <div style="font-family:'Playfair Display',serif;font-size:16px;font-weight:700;margin-bottom:2px;">Generated content</div>
+      <div class="regen-note">Not quite right? Regenerate for a fresh version.</div>
+    </div>
+    <button class="regen-btn" id="regenBtn" onclick="generate(true)">
+      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><polyline points="23 4 23 10 17 10"/><path d="M20.49 15a9 9 0 1 1-2.12-9.36L23 10"/></svg>
+      Regenerate
+    </button>
+  </div>
+
+  <div id="results"></div>
+
+</div>
+
+<script>
+// ── PROGRESS TRACKER ──
+const topicInput   = document.getElementById('topic');
+const contextInput = document.getElementById('context');
+
+function updateProgress() {
+  const hasTopic    = topicInput.value.trim().length > 0;
+  const hasContext  = contextInput.value.trim().length > 0;
+  const hasPlatform = document.querySelectorAll('#platformGrid .chip.active').length > 0;
+
+  setStep('step1', hasTopic ? 'done' : 'active');
+  setStep('step2', hasTopic && hasContext ? 'done' : hasTopic ? 'active' : 'inactive');
+  setStep('step3', hasPlatform && (hasTopic || hasContext) ? 'done' : hasTopic ? 'active' : 'inactive');
+
+  checkMissingDetails();
+}
+
+function setStep(id, state) {
+  const el = document.getElementById(id);
+  el.className = 'progress-step ' + state;
+  const num = el.querySelector('.step-num');
+  num.textContent = state === 'done' ? '✓' : id.replace('step','');
+}
+
+// ── MISSING DETAILS CHECKER ──
+const MISSING_HINTS = [
+  { pattern: /\b(event|workshop|session|webinar|meetup|drive)\b/i, check: /\b(\d{1,2}(st|nd|rd|th)?[\s\-]\w+|\d{1,2}\/\d{1,2}|january|february|march|april|may|june|july|august|september|october|november|december|monday|tuesday|wednesday|thursday|friday|saturday|sunday)\b/i, hint: 'No date or day mentioned — add it for better CTAs' },
+  { pattern: /\b(apply|application|hiring|internship|volunteer|join us)\b/i, check: /\b(deadline|last date|by|before|closes|due)\b/i, hint: 'Application deadline not mentioned — readers will ask!' },
+  { pattern: /\b(register|registration|sign up|signup|rsvp)\b/i, check: /\b(link|form|http|bit\.ly|google form)\b/i, hint: 'Registration link missing — include it or note "link in bio"' },
+  { pattern: /\b(letter|letters)\b/i, check: /\b(child|children|kid|student|age|year.old)\b/i, hint: 'Mentioning who the letter is from makes it more personal & shareable' },
+];
+
+function checkMissingDetails() {
+  const combined = (topicInput.value + ' ' + contextInput.value).toLowerCase();
+  if (!combined.trim()) { document.getElementById('missingWarn').style.display = 'none'; return; }
+  const hints = MISSING_HINTS.filter(r => r.pattern.test(combined) && !r.check.test(combined)).map(r => r.hint);
+  const warn  = document.getElementById('missingWarn');
+  if (hints.length) {
+    document.getElementById('missingList').innerHTML = hints.map(h => `• ${h}`).join('<br>');
+    warn.style.display = 'block';
+  } else {
+    warn.style.display = 'none';
+  }
+}
+
+topicInput.addEventListener('input', updateProgress);
+contextInput.addEventListener('input', updateProgress);
+document.getElementById('platformGrid').addEventListener('click', updateProgress);
+
+// ── REGENERATE OBSERVER ──
+const resultsObs = new MutationObserver(() => {
+  const hasResults = document.getElementById('results').children.length > 0;
+  document.getElementById('regenWrap').style.display = hasResults ? 'flex' : 'none';
+});
+resultsObs.observe(document.getElementById('results'), { childList: true });
+
+// ── FILL TOPIC ──
+function fillTopic(text) {
+  document.getElementById('topic').value = text;
+  document.getElementById('topic').focus();
+  updateProgress();
+}
+</script>
+<script src="script.js"></script>
+</body>
+</html>
