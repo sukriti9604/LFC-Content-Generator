@@ -182,16 +182,17 @@ Return ONLY a valid JSON array, no markdown, no backticks:
 }
 
 function renderCarousel(items) {
-  // ── Platform tabs — use label from meta for correct casing ──
+  // Store items in a module-level map keyed by index — no JSON in HTML attrs
+  window._lfcItems = {};
+  items.forEach((item, i) => { window._lfcItems[i] = item; });
+
   const tabsHtml = items.map((item, i) => {
-    const meta  = platformMeta[item.platform] || { icon: '📣', label: item.platform };
+    const meta = platformMeta[item.platform] || { icon: '📣', label: item.platform };
     return `<button class="platform-tab ${i === 0 ? 'active' : ''}" data-p="${item.platform}" onclick="showSlide('${item.platform}')">${meta.icon} ${meta.label}</button>`;
   }).join('');
 
-  // ── Slides ──
   const slidesHtml = items.map((item, i) => {
-    const meta  = platformMeta[item.platform] || { icon: '📣', cls: '', limit: '', label: item.platform };
-    const safe  = JSON.stringify(item).replace(/"/g, '&quot;');
+    const meta = platformMeta[item.platform] || { icon: '📣', cls: '', limit: '', label: item.platform };
 
     const headlines = (item.headlines || []).map((hl, idx) => `
       <div class="headline-option" onclick="selectHeadline(this)">
@@ -204,7 +205,7 @@ function renderCarousel(items) {
     const engagement = (item.engagement || []).map(e => `<div class="engagement-idea"><span>💡</span><span>${e}</span></div>`).join('');
 
     return `
-      <div class="carousel-slide ${i === 0 ? 'active' : ''}" id="slide-${item.platform.replace('/','_')}">
+      <div class="carousel-slide ${i === 0 ? 'active' : ''}" id="slide-${item.platform.replace('/','_')}" data-idx="${i}">
         <div class="result-card">
           <div class="result-header ${meta.cls}">
             <div class="platform-label">
@@ -212,7 +213,7 @@ function renderCarousel(items) {
               <span>${meta.label}</span>
               ${meta.limit ? `<span class="char-badge">${meta.limit}</span>` : ''}
             </div>
-            <button class="copy-btn primary" onclick='copyAll(this, "${safe}")'>⎘ Copy all</button>
+            <button class="copy-btn primary" onclick="copyAll(this)">⎘ Copy all</button>
           </div>
           <div class="result-body">
             <div class="content-block">
@@ -240,9 +241,9 @@ function renderCarousel(items) {
               <div class="tags-wrap">${hashtags}</div>
             </div>
             <div class="card-actions">
-              <button class="copy-btn" onclick='copyCaption(this, "${safe}")'>Copy caption</button>
-              <button class="copy-btn" onclick='copyHashtags(this, "${safe}")'>Copy hashtags</button>
-              <button class="copy-btn" onclick='copyKeywords(this, "${safe}")'>Copy keywords</button>
+              <button class="copy-btn" onclick="copyCaption(this)">Copy caption</button>
+              <button class="copy-btn" onclick="copyHashtags(this)">Copy hashtags</button>
+              <button class="copy-btn" onclick="copyKeywords(this)">Copy keywords</button>
             </div>
           </div>
         </div>
@@ -253,6 +254,12 @@ function renderCarousel(items) {
   document.getElementById('carouselSlides').innerHTML = slidesHtml;
   document.getElementById('timeSaved').textContent    = `~${items.length * 30} mins saved`;
   document.getElementById('carouselWrap').style.display = 'block';
+}
+
+function getItemForBtn(btn) {
+  const slide = btn.closest('.carousel-slide');
+  const idx   = parseInt(slide.dataset.idx, 10);
+  return window._lfcItems[idx];
 }
 
 function selectHeadline(el) {
@@ -268,34 +275,30 @@ function flash(btn, label) {
   setTimeout(() => { btn.textContent = orig; btn.classList.remove('copied'); }, 2200);
 }
 
-function copyAll(btn, rawJson) {
-  const item = JSON.parse(rawJson.replace(/&quot;/g, '"'));
-  // Use the selected headline if one is picked, otherwise include all
+function copyAll(btn) {
+  const item = getItemForBtn(btn);
   const selectedEl = btn.closest('.result-card').querySelector('.headline-option.selected .hl-text');
-  let headlineBlock;
-  if (selectedEl) {
-    headlineBlock = `Headline: ${selectedEl.textContent}`;
-  } else {
-    headlineBlock = (item.headlines || []).map((h, i) => `Headline ${i+1}: ${h}`).join('\n');
-  }
+  const headlineBlock = selectedEl
+    ? `Headline: ${selectedEl.textContent}`
+    : (item.headlines || []).map((h, i) => `Headline ${i+1}: ${h}`).join('\n');
   const text = [headlineBlock, '', item.caption, '', item.cta, '', 'Keywords: ' + (item.keywords || []).join(', '), '', (item.hashtags || []).join(' ')].join('\n');
   navigator.clipboard.writeText(text).then(() => flash(btn, 'Copied!'));
 }
 
-function copyCaption(btn, rawJson) {
-  const item     = JSON.parse(rawJson.replace(/&quot;/g, '"'));
+function copyCaption(btn) {
+  const item     = getItemForBtn(btn);
   const selected = btn.closest('.result-card').querySelector('.headline-option.selected .hl-text');
   const headline = selected ? selected.textContent : (item.headlines?.[0] || '');
   navigator.clipboard.writeText(`${headline}\n\n${item.caption}\n\n${item.cta}`).then(() => flash(btn, 'Copied!'));
 }
 
-function copyHashtags(btn, rawJson) {
-  const item = JSON.parse(rawJson.replace(/&quot;/g, '"'));
+function copyHashtags(btn) {
+  const item = getItemForBtn(btn);
   navigator.clipboard.writeText((item.hashtags || []).join(' ')).then(() => flash(btn, 'Copied!'));
 }
 
-function copyKeywords(btn, rawJson) {
-  const item = JSON.parse(rawJson.replace(/&quot;/g, '"'));
+function copyKeywords(btn) {
+  const item = getItemForBtn(btn);
   navigator.clipboard.writeText((item.keywords || []).join(', ')).then(() => flash(btn, 'Copied!'));
 }
 
