@@ -448,20 +448,41 @@
 
   /* ── MOBILE ── */
   @media (max-width: 600px) {
+   .logo-img{
+        height: 36px;      /* was 48px */
+    }
+
+    .org-name{
+        font-size: 18px;   /* was 22px */
+        line-height: 1.2;
+    }
+
+    .page-intro h2{
+        font-size: 18px;
+        margin-bottom: 6px;
+    }
+
+    .page-intro p{
+        font-size: 13px;
+        line-height: 1.4;
+    }
+
     .proof-strip {
-        padding: 6px 12px;
+      padding: 8px 10px;
+      gap: 6px;
     }
 
     .proof-stat {
-        padding: 3px 6px;
+      padding: 4px;
     }
 
     .proof-num {
-        font-size: 18px;
+      font-size: 18px;
     }
 
     .proof-desc {
-        font-size: 8px;
+      font-size: 9px;
+      line-height: 1.2;
     }
     .main { padding: 16px 12px 0; }
     .card { padding: 16px; }
