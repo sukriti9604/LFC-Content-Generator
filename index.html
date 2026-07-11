@@ -449,21 +449,25 @@
   /* ── MOBILE ── */
   @media (max-width: 600px) {
     .proof-strip {
-      padding: 8px 10px;
-      gap: 6px;
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 4px;
+      padding: 8px 6px;
+      align-items: center;
     }
     .proof-stat {
-      padding: 4px 2px;
+      padding: 2px;
     }
 
     .proof-num {
-      font-size: 18px;
+      font-size: 16px;
       line-height: 1;
     }
 
     .proof-desc {
-      font-size: 9px;
+      font-size: 8px;
       line-height: 1.2;
+      text-align: center;
     }
     .main { padding: 16px 12px 0; }
     .card { padding: 16px; }
